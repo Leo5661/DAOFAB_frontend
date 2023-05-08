@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchPerent } from "../../assets/api/FetchParent";
 import { Link } from "react-router-dom";
+import PageHandleButton from "../../components/PageHandleButton";
 
 function Parent() {
   const page = 0;
@@ -8,38 +9,42 @@ function Parent() {
   const results = useQuery(["parents", page, limit], fetchPerent);
 
   if (results.isLoading) {
-    return <div>Loading data</div>;
+    return <div className="w-10/12 p-4 font-bold tracking-wide text-xl text-gray-600">Loading data</div>;
   }
-  const parent = results.data.content;
+  const data = results.data;
+  const parent = data.content;
 
   return (
-    <div>
-      <table>
-        <thead>
+    <div className="flex justify-center items-center flex-col">
+        <div className="w-10/12 p-4 font-bold tracking-wide text-xl text-gray-600">Parent Table</div>
+        <div className="w-10/12 rounded-lg shadow-lg">
+        <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
           <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Sender</th>
-            <th scope="col">Receiver</th>
-            <th scope="col">Total Amount</th>
-            <th scope="col">Total Paid Amount</th>
+            <th scope="col" className="px-6 py-3 text-left text-base uppercase tracking-wider text-gray-500">Id</th>
+            <th scope="col" className="px-6 py-3 text-left text-base uppercase tracking-wider text-gray-500">Receiver</th>
+            <th scope="col" className="px-6 py-3 text-left text-base uppercase tracking-wider text-gray-500">Sender</th>
+            <th scope="col" className="px-6 py-3 text-left text-base uppercase tracking-wider text-gray-500">Total Amount</th>
+            <th scope="col" className="px-6 py-3 text-left text-base uppercase tracking-wider text-gray-500">Total Paid Amount</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="bg-white divide-y divide-x divide-gray-200">
           {parent.map((item) => {
             return (
               <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.sender}</td>
-                <td>{item.receiver}</td>
-                <td>{item.totalAmount}</td>
+                <td className="px-6 py-4">{item.id}</td>
+                <td className="px-6 py-4">{item.sender}</td>
+                <td className="px-6 py-4">{item.receiver}</td>
+                <td className="px-6 py-4">{item.totalAmount}</td>
                 <td>
-                  <Link to={`/child/${item.id}`}>{item.totalPaidAmount}</Link>
+                  <Link to={`/child/${item.id}`} className="w-full flex px-6 py-4">{item.totalPaidAmount}</Link>
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+        </div>
     </div>
   );
 }

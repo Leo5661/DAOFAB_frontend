@@ -4,9 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-
 html,
 body {
   font-family: 'JetBrains Mono', monospace;

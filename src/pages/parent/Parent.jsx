@@ -1,18 +1,36 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchPerent } from "../../assets/api/FetchParent";
+import { fetchPerent } from "../../api/FetchParent";
 import { Link } from "react-router-dom";
 import PageHandleButton from "../../components/PageHandleButton";
+import { useState } from "react";
 
 function Parent() {
-  const page = 0;
+  let [page, setPage] = useState(0);
   const limit = 2;
   const results = useQuery(["parents", page, limit], fetchPerent);
-
   if (results.isLoading) {
     return <div className="w-10/12 p-4 font-bold tracking-wide text-xl text-gray-600">Loading data</div>;
   }
   const data = results.data;
   const parent = data.content;
+
+  const handleNextClick = () => {
+    ++page
+    setPage(page);
+  }
+
+  const handlePrevClick = () => {
+    --page
+    setPage(page);
+  }
+
+  const handleFirstClick = () => {
+    setPage(0);
+  }
+
+  const handleLastClick = () => {
+    setPage(data.totalPages-1);
+  }
 
   return (
     <div className="flex justify-center items-center flex-col">
@@ -29,7 +47,7 @@ function Parent() {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-x divide-gray-200">
-          {parent.map((item) => {
+        {parent.map((item) => {
             return (
               <tr key={item.id}>
                 <td className="px-6 py-4">{item.id}</td>
@@ -44,6 +62,18 @@ function Parent() {
           })}
         </tbody>
       </table>
+        </div>
+        <div className="w-10/12 p-4 flex justify-end">
+            <PageHandleButton 
+                currentPage={data.pageable.pageNumber+1} 
+                totalPage={data.totalPages} 
+                isFirst={data.first} 
+                isLast={data.last}
+                onNextClick={handleNextClick}
+                onPreviousClick={handlePrevClick}
+                onFirstClick={handleFirstClick}
+                onLastClick={handleLastClick}    
+            />
         </div>
     </div>
   );

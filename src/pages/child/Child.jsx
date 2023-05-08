@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { fetchChild } from "../../assets/api/FetchChild";
+import { fetchChild } from "../../api/FetchChild";
 import { useQuery } from "@tanstack/react-query";
 
 function Child() {

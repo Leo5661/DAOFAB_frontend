@@ -1,6 +1,6 @@
 # DAOFAB_frontend
 
-Demo link : (https://daofab-frontend.vercel.app/)[https://daofab-frontend.vercel.app/]
+Demo link : https://daofab-frontend.vercel.app/
 
 ## Local Setup
 ```
